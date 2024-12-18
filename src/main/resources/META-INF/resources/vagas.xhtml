@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">>
+
+<h:head>
+    <title>Vagas</title>
+</h:head>
+<h:body>
+    <p:growl id="messages" autoUpdate="true" life="3000" showDetail="true"/>
+    <h:form id="insercaoVagasForm">
+        <p:panel header="Cadastro de Vagas">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="inicio" value="Início:"/>
+                <p:datePicker id="inicio" value="#{vagasBean.vagas.inicio}"
+                              pattern="dd/MM/yyyy" showIcon="true" required="true"
+                              requiredMessage="Informe a data de início para as vagas."/>
+
+                <h:outputLabel for="fim" value="Fim:"/>
+                <p:datePicker id="fim" value="#{vagasBean.vagas.fim}"
+                              pattern="dd/MM/yyyy" showIcon="true" required="true"
+                              requiredMessage="Informe a data de fim para as vagas."/>
+
+                <h:outputLabel for="quantidade" value="Quantidade:"/>
+                <p:inputText id="quantidade" filter="numeric" value="#{vagasBean.vagas.quantidade}" required="true" label="Quantidade:"/>
+
+                <p:commandButton value="salvar" action="#{vagasBean.salvarVagas}" update=":vagasForm messages insercaoVagasForm"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+
+    <h:form id="vagasForm">
+        <p:dataTable value="#{vagasBean.vagasList}" var="vagas" paginator="true" rows="8" border="1">
+            <p:column headerText="ID">
+                <h:outputText value="#{vagas.id}"/>
+            </p:column>
+            <p:column headerText="Início">
+                <h:outputText value="#{vagas.inicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Fim">
+                <h:outputText value="#{vagas.fim}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Quantidade">
+                <h:outputText value="#{vagas.quantidade}"/>
+            </p:column>
+            <p:column headerText="Ações">
+                <p:commandButton value="excluir" action="#{vagasBean.excluirVagas(vagas)}" update="vagasForm messages"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>
