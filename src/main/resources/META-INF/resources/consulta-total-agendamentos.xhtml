@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Consulta de Total de Agendamentos por Solicitante</title>
+</h:head>
+<h:body>
+    <ui:include src="header.xhtml" />
+    <p:growl id="messages" autoUpdate="true" life="3000" showDetail="true"/>
+    <h:form id="consultaTotalAgendamentosForm">
+        <p:panel header="Consulta de Total de Agendamentos por Solicitante">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="inicio" value="Início:"/>
+                <p:datePicker id="inicio" value="#{consultaTotalAgendamentosBean.agendamentoBusca.dataInicio}"
+                              pattern="dd/MM/yyyy" showIcon="true" required="true"
+                              requiredMessage="Informe a data de início."/>
+
+                <h:outputLabel for="fim" value="Fim:"/>
+                <p:datePicker id="fim" value="#{consultaTotalAgendamentosBean.agendamentoBusca.dataFim}"
+                              pattern="dd/MM/yyyy" showIcon="true" required="true"
+                              requiredMessage="Informe a data de fim."/>
+
+                <h:outputLabel for="solicitante" value="Solicitante:"/>
+                <p:autoComplete id="solicitante"
+                                value="#{consultaTotalAgendamentosBean.agendamentoBusca.solicitante}"
+                                completeMethod="#{consultaTotalAgendamentosBean.sugerirSolicitantes}"
+                                var="sol"
+                                itemLabel="#{sol.nome}"
+                                itemValue="#{sol}"
+                                required="true"
+                                forceSelection="true"
+                                converter="#{solicitanteConverter}"
+                                placeHolder="Digite o nome do solicitante"/>
+
+                <p:commandButton value="Buscar" action="#{consultaTotalAgendamentosBean.listarTotalAgendamentos}" update=":consultaTotalAgendamentosForm messages consultaTotalForm"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+    <h:form id="consultaTotalForm">
+        <p:dataTable value="#{consultaTotalAgendamentosBean.totalAgendamentos}" var="totalAgendamento" paginator="true" rows="8" border="1">
+            <p:column headerText="Solicitante">
+                <h:outputText value="#{totalAgendamento.nomeSolicitante}"/>
+            </p:column>
+            <p:column headerText="Total de Agendamentos">
+                <h:outputText value="#{totalAgendamento.totalAgendamentos}"/>
+            </p:column>
+            <p:column headerText="Quantidade de Vagas">
+                <h:outputText value="#{totalAgendamento.quantidadeVagas}"/>
+            </p:column>
+            <p:column headerText="Percentual">
+                <h:outputText value="#{totalAgendamento.getPercentualVagasPorAgendamento()}">
+                    <f:convertNumber pattern="#.##"/>
+                </h:outputText>
+                <span>%</span>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>

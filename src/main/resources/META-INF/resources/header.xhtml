@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form>
+        <h:panelGrid columns="6">
+            <p:commandButton value="Home" action="#{navigateBean.navigateToHome}" />
+            <p:commandButton value="Cadastro de Vagas" action="#{navigateBean.navigateToCadastroVagas}" />
+            <p:commandButton value="Cadastro de Solicitantes" action="#{navigateBean.navigateToCadastroSolicitantes}" />
+            <p:commandButton value="Cadastro de Agendamentos" action="#{navigateBean.navigateToCadastroAgendamentos}" />
+            <p:commandButton value="Consulta de Agendamentos" action="#{navigateBean.navigateToConsultaAgendamentos}" />
+            <p:commandButton value="Consulta Total de Agendamentos por Solicitante" action="#{navigateBean.navigateToConsultaTotalAgendamentos}" />
+        </h:panelGrid>
+    </h:form>
+</html>

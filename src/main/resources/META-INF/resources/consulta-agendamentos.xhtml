@@ -7,28 +7,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-    <title>Agendamento</title>
+    <title>Consulta de Agendamentos</title>
 </h:head>
 <h:body>
     <ui:include src="header.xhtml" />
     <p:growl id="messages" autoUpdate="true" life="3000" showDetail="true"/>
-    <h:form id="insercaoAgendamentoForm">
-        <p:panel header="Cadastro de Agendamentos">
+    <h:form id="consultaAgendamentosForm">
+        <p:panel header="Consulta de Agendamentos">
             <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="data" value="Data:"/>
-                <p:datePicker id="data" value="#{agendamentoBean.agendamento.data}"
+                <h:outputLabel for="inicio" value="Início:"/>
+                <p:datePicker id="inicio" value="#{consultaAgendamentosBean.agendamentoBusca.dataInicio}"
                               pattern="dd/MM/yyyy" showIcon="true" required="true"
-                              requiredMessage="Informe a data do agendamento."/>
+                              requiredMessage="Informe a data de início."/>
 
-                <h:outputLabel for="numero" value="Número:"/>
-                <p:inputText id="numero" maxlength="20" value="#{agendamentoBean.agendamento.numero}" required="true" label="Número:"/>
-
-                <h:outputLabel for="motivo" value="Motivo:"/>
-                <h:inputTextarea id="motivo" maxlength="255" rows="5" cols="50" value="#{agendamentoBean.agendamento.motivo}" required="true" label="Motivo:"/>
+                <h:outputLabel for="fim" value="Fim:"/>
+                <p:datePicker id="fim" value="#{consultaAgendamentosBean.agendamentoBusca.dataFim}"
+                              pattern="dd/MM/yyyy" showIcon="true" required="true"
+                              requiredMessage="Informe a data de fim."/>
 
                 <h:outputLabel for="solicitante" value="Solicitante:"/>
                 <p:autoComplete id="solicitante"
-                                value="#{agendamentoBean.solicitanteSelecionado}"
+                                value="#{consultaAgendamentosBean.agendamentoBusca.solicitante}"
                                 completeMethod="#{agendamentoBean.sugerirSolicitantes}"
                                 var="sol"
                                 required="true"
@@ -38,12 +37,12 @@
                                 converter="#{solicitanteConverter}"
                                 placeHolder="Digite o nome do solicitante"/>
 
-                <p:commandButton value="Salvar" action="#{agendamentoBean.salvarAgendamento}" update=":agendamentoForm messages insercaoAgendamentoForm"/>
+                <p:commandButton value="Buscar" action="#{consultaAgendamentosBean.buscarAgendamentos}" update=":consultaAgendamentosForm messages consultaForm"/>
             </h:panelGrid>
         </p:panel>
     </h:form>
-    <h:form id="agendamentoForm">
-        <p:dataTable value="#{agendamentoBean.agendamentos}" var="agendamento" paginator="true" rows="8" border="1">
+    <h:form id="consultaForm">
+        <p:dataTable value="#{consultaAgendamentosBean.agendamentos}" var="agendamento" paginator="true" rows="8" border="1">
             <p:column headerText="Data">
                 <h:outputText value="#{agendamento.data}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -57,9 +56,6 @@
             </p:column>
             <p:column headerText="Solicitante">
                 <h:outputText value="#{agendamento.solicitante.nome}"/>
-            </p:column>
-            <p:column headerText="Ações">
-                <p:commandButton value="Excluir" action="#{agendamentoBean.excluirAgendamento(agendamento)}" update="agendamentoForm messages"/>
             </p:column>
         </p:dataTable>
     </h:form>

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -32,5 +33,11 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "solicitante_id", referencedColumnName = "id")
     private Solicitante solicitante;
+
+    @Transient
+    private Date dataInicio;
+
+    @Transient
+    private Date dataFim;
 
 }
