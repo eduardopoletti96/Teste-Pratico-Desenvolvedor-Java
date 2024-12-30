@@ -29,4 +29,7 @@ public class Vagas {
 
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;
+
+    @Column(name = "tipo", nullable = false)
+    private String tipo;
 }

@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 
 @Named("vagasBean")
@@ -26,14 +27,21 @@ public class VagasBean {
 
     private Vagas vagas = new Vagas();
     private List<Vagas> vagasList;
+    private String tipoSelecionado;
+    private List<String> opcoesTipo;
 
     @PostConstruct
     public void init() {
+
         listarVagas();
+        opcoesTipo = new ArrayList<>();
+        opcoesTipo.add("Leve");
+        opcoesTipo.add("Pesado");
     }
 
     public void salvarVagas() {
         try {
+            vagas.setTipo(tipoSelecionado);
             vagasService.salvarVagas(vagas);
         } catch (ValidacaoVagasException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
@@ -44,14 +52,12 @@ public class VagasBean {
         limparVagas();
     }
 
-    private void limparVagas() { vagas = new Vagas(); }
-
-    public void listarVagas() { vagasList = vagasService.listarVagas();
-        for(Vagas vaga : vagasList) {
-            System.out.println(vaga.getInicio());
-            System.out.println(vaga.getFim());
-        }
+    private void limparVagas() {
+        vagas = new Vagas();
+        tipoSelecionado = "";
     }
+
+    public void listarVagas() { vagasList = vagasService.listarVagas(); }
 
     public void excluirVagas(Vagas vaga) {
         vagasService.excluirVagas(vaga);

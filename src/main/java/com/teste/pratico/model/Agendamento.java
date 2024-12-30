@@ -30,6 +30,9 @@ public class Agendamento {
     @Column(name = "motivo", length = 255, nullable = false)
     private String motivo;
 
+    @Column(name = "tipo", length = 255, nullable = false)
+    private String tipo;
+
     @ManyToOne
     @JoinColumn(name = "solicitante_id", referencedColumnName = "id")
     private Solicitante solicitante;

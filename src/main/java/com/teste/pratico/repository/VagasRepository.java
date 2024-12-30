@@ -13,8 +13,9 @@ public interface VagasRepository extends JpaRepository<Vagas, Long> {
     @Query("SELECT v FROM Vagas v WHERE v.fim <= :dataAgendamento")
     List<Vagas> buscarVagasPorDataAgendamento(@Param("dataAgendamento") Date dataAgendamento);
 
-    @Query("SELECT COALESCE(SUM(v.quantidade), 0) FROM Vagas v WHERE v.inicio <= :dataAgendamento AND v.fim >= :dataAgendamento")
-    Integer somaQuantidadeVagasPorPeriodo(@Param("dataAgendamento") Date dataAgendamento);
+    @Query("SELECT COALESCE(SUM(v.quantidade), 0) FROM Vagas v WHERE v.tipo = :tipoVeiculo AND v.inicio <= :dataAgendamento AND v.fim >= :dataAgendamento")
+    Integer somaQuantidadeVagasPorPeriodo(@Param("dataAgendamento") Date dataAgendamento,
+                                          @Param("tipoVeiculo") String tipoVeiculo);
 
     @Query("SELECT MIN(v.inicio) FROM Vagas v WHERE v.inicio <= :dataAgendamento AND v.fim >= :dataAgendamento")
     Date menorDataInicio(@Param("dataAgendamento") Date dataAgendamento);

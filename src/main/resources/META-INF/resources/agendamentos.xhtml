@@ -38,6 +38,12 @@
                                 converter="#{solicitanteConverter}"
                                 placeHolder="Digite o nome do solicitante"/>
 
+                <h:outputLabel for="tipo" value="Tipo:"/>
+                <p:selectOneMenu id="tipo" value="#{agendamentoBean.tipoSelecionado}" required="true">
+                    <f:selectItem itemLabel="Selecione um tipo" itemValeu=""/>
+                    <f:selectItems value="#{agendamentoBean.opcoesTipo}"/>
+                </p:selectOneMenu>
+
                 <p:commandButton value="Salvar" action="#{agendamentoBean.salvarAgendamento}" update=":agendamentoForm messages insercaoAgendamentoForm"/>
             </h:panelGrid>
         </p:panel>
@@ -57,6 +63,9 @@
             </p:column>
             <p:column headerText="Solicitante">
                 <h:outputText value="#{agendamento.solicitante.nome}"/>
+            </p:column>
+            <p:column headerText="Tipo">
+                <h:outputText value="#{agendamento.tipo}"/>
             </p:column>
             <p:column headerText="Ações">
                 <p:commandButton value="Excluir" action="#{agendamentoBean.excluirAgendamento(agendamento)}" update="agendamentoForm messages"/>

@@ -48,8 +48,9 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Intege
     Long contarAgendamentosPorPeriodo(@Param("dataInicio") Date dataInicio,
                                       @Param("dataFim") Date dataFim);
 
-    @Query("SELECT COUNT(a) FROM Agendamento a WHERE a.solicitante = :solicitante AND a.data >= :dataInicio AND a.data <= :dataFim")
-    Long contarAgendamentosPorPeriodoESolicitante(@Param("dataInicio") Date dataInicio,
+    @Query("SELECT COUNT(a) FROM Agendamento a WHERE a.solicitante = :solicitante AND a.tipo = :tipoVeiculo AND a.data >= :dataInicio AND a.data <= :dataFim")
+    Long contarAgendamentosPorPeriodoESolicitanteETipoVeiculo(@Param("dataInicio") Date dataInicio,
                                                   @Param("dataFim") Date dataFim,
-                                                  @Param("solicitante") Solicitante solicitante);
+                                                  @Param("solicitante") Solicitante solicitante,
+                                                  @Param("tipoVeiculo") String tipoVeiculo);
 }

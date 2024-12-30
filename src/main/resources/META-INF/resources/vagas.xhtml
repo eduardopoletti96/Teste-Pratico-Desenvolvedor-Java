@@ -28,6 +28,12 @@
                 <h:outputLabel for="quantidade" value="Quantidade:"/>
                 <p:inputText id="quantidade" filter="numeric" value="#{vagasBean.vagas.quantidade}" required="true" label="Quantidade:"/>
 
+                <h:outputLabel for="tipo" value="Tipo:"/>
+                <p:selectOneMenu id="tipo" value="#{vagasBean.tipoSelecionado}" required="true">
+                    <f:selectItem itemLabel="Selecione um tipo" itemValeu=""/>
+                    <f:selectItems value="#{vagasBean.opcoesTipo}"/>
+                </p:selectOneMenu>
+
                 <p:commandButton value="Salvar" action="#{vagasBean.salvarVagas}" update=":vagasForm messages insercaoVagasForm"/>
             </h:panelGrid>
         </p:panel>
@@ -50,6 +56,9 @@
             </p:column>
             <p:column headerText="Quantidade">
                 <h:outputText value="#{vagas.quantidade}"/>
+            </p:column>
+            <p:column headerText="Tipo">
+                <h:outputText value="#{vagas.tipo}"/>
             </p:column>
             <p:column headerText="Ações">
                 <p:commandButton value="Excluir" action="#{vagasBean.excluirVagas(vagas)}" update="vagasForm messages"/>

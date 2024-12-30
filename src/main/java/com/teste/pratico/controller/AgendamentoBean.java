@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Named("agendamentoBean")
@@ -32,15 +33,22 @@ public class AgendamentoBean implements Serializable {
     private Agendamento agendamento = new Agendamento();
     private List<Agendamento> agendamentos;
     private Solicitante solicitanteSelecionado;
+    private String tipoSelecionado;
+    private List<String> opcoesTipo;
 
     @PostConstruct
     public void init() {
         listarAgendamentos();
     }
 
-    public void listarAgendamentos() { agendamentos = agendamentoService.listarAgendamentos(); }
+    public void listarAgendamentos() {
+        agendamentos = agendamentoService.listarAgendamentos();
+        opcoesTipo = new ArrayList<>();
+        opcoesTipo.add("Leve");
+        opcoesTipo.add("Pesado");}
 
     public void salvarAgendamento() {
+        agendamento.setTipo(tipoSelecionado);
         agendamento.setSolicitante(solicitanteSelecionado);
         try {
             agendamentoService.salvarAgendamento(agendamento);
@@ -62,7 +70,10 @@ public class AgendamentoBean implements Serializable {
         listarAgendamentos();
     }
 
-    private void limparAgendamento() { agendamento = new Agendamento(); }
+    private void limparAgendamento() {
+        agendamento = new Agendamento();
+        tipoSelecionado = "";
+    }
 
     public List<Solicitante> sugerirSolicitantes(String nome) {
         return solicitanteService.listarSolicitantes(nome);

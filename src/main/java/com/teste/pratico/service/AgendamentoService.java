@@ -38,7 +38,7 @@ public class AgendamentoService {
     }
 
     private void verificaDisponibilidadeVagaParaAgendamento(Agendamento agendamento) {
-        Integer totalVagasDisponiveis = vagasRepository.somaQuantidadeVagasPorPeriodo(agendamento.getData());
+        Integer totalVagasDisponiveis = vagasRepository.somaQuantidadeVagasPorPeriodo(agendamento.getData(), agendamento.getTipo());
 
         Date menorDataInicio = vagasRepository.menorDataInicio(agendamento.getData());
 
@@ -50,11 +50,12 @@ public class AgendamentoService {
             throw new AgendamentoException("Não há mais vagas disponíveis para a data solicitada!");
         }
 
-        Long totalAgendamentosSolicitante = agendamentoRepository.contarAgendamentosPorPeriodoESolicitante(menorDataInicio, maiorDataFim, agendamento.getSolicitante());
+        Long totalAgendamentosSolicitante = agendamentoRepository.contarAgendamentosPorPeriodoESolicitanteETipoVeiculo(menorDataInicio, maiorDataFim, agendamento.getSolicitante(), agendamento.getTipo());
 
         if (totalAgendamentosSolicitante >= totalVagasDisponiveis * 0.25) {
-            throw new AgendamentoException("O mesmo solicitante não pode ocupar mais do que 25% das vagas do período!");
+            throw new AgendamentoException("O mesmo solicitante não pode ocupar mais do que 25% das vagas do período para o mesmo tipo de Veículo!");
         }
+
     }
 
     public void excluirAgendamento(Agendamento agendamento) { agendamentoRepository.delete(agendamento); }
