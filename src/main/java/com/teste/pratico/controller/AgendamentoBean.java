@@ -4,6 +4,7 @@ import com.teste.pratico.exception.AgendamentoException;
 import com.teste.pratico.model.Agendamento;
 import com.teste.pratico.model.Solicitante;
 import com.teste.pratico.service.AgendamentoService;
+import com.teste.pratico.service.BaseService;
 import com.teste.pratico.service.SolicitanteService;
 import com.teste.pratico.util.TesteUtils;
 import lombok.Getter;
@@ -15,7 +16,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
 @ViewScoped
 @Getter
 @Setter
-public class AgendamentoBean implements Serializable {
+public class AgendamentoBean extends BaseController<Agendamento> {
 
     @Autowired
     private AgendamentoService agendamentoService;
@@ -36,13 +36,18 @@ public class AgendamentoBean implements Serializable {
     private String tipoSelecionado;
     private List<String> opcoesTipo;
 
+    @Override
+    public BaseService<Agendamento> getService() {
+        return agendamentoService;
+    }
+
     @PostConstruct
     public void init() {
         listarAgendamentos();
     }
 
     public void listarAgendamentos() {
-        agendamentos = agendamentoService.listarAgendamentos();
+        agendamentos = agendamentoService.listarComLimite(10);
         opcoesTipo = new ArrayList<>();
         opcoesTipo.add("Leve");
         opcoesTipo.add("Pesado");}
@@ -51,7 +56,7 @@ public class AgendamentoBean implements Serializable {
         agendamento.setTipo(tipoSelecionado);
         agendamento.setSolicitante(solicitanteSelecionado);
         try {
-            agendamentoService.salvarAgendamento(agendamento);
+            agendamentoService.salvar(agendamento);
         } catch (AgendamentoException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
             return;
@@ -64,7 +69,7 @@ public class AgendamentoBean implements Serializable {
     }
 
     public void excluirAgendamento(Agendamento agendamento) {
-        agendamentoService.excluirAgendamento(agendamento);
+        agendamentoService.excluir(agendamento);
         TesteUtils.enviarMensagemSucesso("Agendamento removido com sucesso!");
 
         listarAgendamentos();

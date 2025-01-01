@@ -12,17 +12,13 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class AgendamentoService {
+public class AgendamentoService extends BaseService<Agendamento>{
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
 
     @Autowired
     private VagasRepository vagasRepository;
-
-    public List<Agendamento> listarAgendamentos() {
-        return agendamentoRepository.findAll();
-    }
 
     public List<Agendamento> listarAgendamentos(Agendamento agendamento) {
         return agendamentoRepository.buscarAgendamentos(agendamento.getDataInicio(), agendamento.getDataFim(), agendamento.getSolicitante());
@@ -32,9 +28,10 @@ public class AgendamentoService {
         return agendamentoRepository.buscarTotalAgendamentos(agendamento.getDataInicio(), agendamento.getDataFim(), agendamento.getSolicitante());
     }
 
-    public void salvarAgendamento(Agendamento agendamento) {
-        verificaDisponibilidadeVagaParaAgendamento(agendamento);
-        agendamentoRepository.save(agendamento);
+    @Override
+    public void salvar(Agendamento entity) {
+        verificaDisponibilidadeVagaParaAgendamento(entity);
+        super.salvar(entity);
     }
 
     private void verificaDisponibilidadeVagaParaAgendamento(Agendamento agendamento) {
@@ -57,6 +54,4 @@ public class AgendamentoService {
         }
 
     }
-
-    public void excluirAgendamento(Agendamento agendamento) { agendamentoRepository.delete(agendamento); }
 }

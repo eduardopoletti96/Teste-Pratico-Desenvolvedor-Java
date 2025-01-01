@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Agendamento {
+public class Agendamento implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +36,16 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "solicitante_id", referencedColumnName = "id")
     private Solicitante solicitante;
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Transient
     private Date dataInicio;

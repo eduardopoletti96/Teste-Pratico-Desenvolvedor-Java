@@ -6,12 +6,14 @@ import com.teste.pratico.dto.TotalAgendamentoDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-public interface AgendamentoRepository extends JpaRepository<Agendamento, Integer> {
+@Repository
+public interface AgendamentoRepository extends BaseRepository<Agendamento, Long> {
 
     @Query("SELECT a FROM Agendamento a " +
            "WHERE (:dataInicio IS NULL OR a.data >= :dataInicio) " +
