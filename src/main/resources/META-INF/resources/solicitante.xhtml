@@ -15,15 +15,15 @@
                 <p:panel header="Cadastro de Solicitantes">
                     <h:panelGrid columns="2" cellpadding="5">
                         <h:outputLabel for="nome" value="Nome:"/>
-                        <p:inputText id="nome" value="#{solicitanteBean.solicitante.nome}" required="true" label="Nome:"/>
+                        <p:inputText id="nome" value="#{solicitanteBean.getEntity().nome}" required="true" label="Nome:"/>
 
-                        <p:commandButton value="Salvar" action="#{solicitanteBean.salvarSolicitante}" update=":solicitantesForm messages insercaoSolicitanteForm"/>
+                        <p:commandButton value="Salvar" action="#{solicitanteBean.salvar}" update=":solicitantesForm messages insercaoSolicitanteForm"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>
 
             <h:form id="solicitantesForm">
-                <p:dataTable value="#{solicitanteBean.solicitantes}" var="solicitante" paginator="true" rows="8" border="1">
+                <p:dataTable value="#{solicitanteBean.getEntityList()}" var="solicitante" paginator="true" rows="8" border="1">
                     <p:column headerText="ID">
                         <h:outputText value="#{solicitante.id}"/>
                     </p:column>
@@ -31,7 +31,7 @@
                         <h:outputText value="#{solicitante.nome}"/>
                     </p:column>
                     <p:column headerText="Ações">
-                        <p:commandButton value="Excluir" action="#{solicitanteBean.excluirSolicitante(solicitante)}" update="solicitantesForm messages"/>
+                        <p:commandButton value="Excluir" action="#{solicitanteBean.excluir(solicitante)}" update="solicitantesForm messages"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

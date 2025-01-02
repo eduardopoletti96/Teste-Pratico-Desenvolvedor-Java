@@ -11,29 +11,16 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class SolicitanteService {
+public class SolicitanteService extends BaseService<Solicitante> {
 
     @Autowired
     private SolicitanteRepository solicitanteRepository;
 
-    public List<Solicitante> listarSolicitantes() {
-        return solicitanteRepository.findAll();
-    }
-
     public List<Solicitante> listarSolicitantes(String nome) {
         if (nome == null || nome.isEmpty()) {
-            return listarSolicitantes();
+            return listarComLimite(10);
         }
         return solicitanteRepository.findByNomeContainingIgnoreCase(nome);
     }
 
-    @Transactional
-    public void salvarSolicitante(Solicitante solicitante) {
-        solicitanteRepository.save(solicitante);
-    }
-
-    @Transactional
-    public void excluirSolicitante(Solicitante solicitante) {
-        solicitanteRepository.delete(solicitante);
-    }
 }

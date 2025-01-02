@@ -3,7 +3,6 @@ package com.teste.pratico.service;
 import com.teste.pratico.model.BaseEntity;
 import com.teste.pratico.repository.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -26,6 +25,11 @@ public abstract class BaseService<T extends BaseEntity> {
 
     public List<T> listarComLimite(int limit) {
         Pageable pageable = PageRequest.of(0, limit);
+        return repository.findAll(pageable).getContent();
+    }
+
+    public List<T> listarComLimitePadrao(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
         return repository.findAll(pageable).getContent();
     }
 

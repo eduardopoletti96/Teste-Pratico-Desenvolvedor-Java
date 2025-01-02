@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,8 +19,13 @@ public abstract class BaseController<T extends BaseEntity> {
 
     private T entity;
     private List<T> entityList;
+    private Class<T> entityClass;
 
     public abstract BaseService<T> getService();
+
+    public BaseController(Class<T> entityClass) {
+        this.entityClass = entityClass;
+    }
 
     @PostConstruct
     public void init() {
@@ -38,6 +45,7 @@ public abstract class BaseController<T extends BaseEntity> {
             getService().salvar(entity);
             TesteUtils.enviarMensagemSucesso("Salvo com sucesso!");
             listarComLimite();
+            limparEntidade(entityClass);
         } catch (Exception e) {
             TesteUtils.enviarMensagemErro(e.getMessage());
         }
@@ -57,6 +65,16 @@ public abstract class BaseController<T extends BaseEntity> {
 
     public T findById(Long id) {
         return getService().findById(id).orElse(null);
+    }
+
+    public void limparLista() {
+        entityList = new ArrayList<>();
+    }
+
+    public void limparEntidade(Class<T> entityClass) throws Exception {
+        Constructor<T> constructor = entityClass.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        entity = constructor.newInstance();
     }
 
 }

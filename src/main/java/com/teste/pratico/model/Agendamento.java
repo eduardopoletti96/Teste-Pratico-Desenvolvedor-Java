@@ -1,12 +1,12 @@
 package com.teste.pratico.model;
 
+import com.teste.pratico.enums.TipoVeiculo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Agendamento implements BaseEntity<Long> {
+public class Agendamento extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,9 @@ public class Agendamento implements BaseEntity<Long> {
     @Column(name = "motivo", length = 255, nullable = false)
     private String motivo;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo", length = 255, nullable = false)
-    private String tipo;
+    private TipoVeiculo tipo;
 
     @ManyToOne
     @JoinColumn(name = "solicitante_id", referencedColumnName = "id")

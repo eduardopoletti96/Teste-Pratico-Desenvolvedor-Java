@@ -24,4 +24,5 @@ public class TesteUtils {
     public static Date converterLocalDateParaData() {
         return Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
+
 }

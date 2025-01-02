@@ -1,11 +1,10 @@
 package com.teste.pratico.repository;
 
 import com.teste.pratico.model.Solicitante;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SolicitanteRepository extends JpaRepository<Solicitante, Long> {
+public interface SolicitanteRepository extends BaseRepository<Solicitante> {
 
     List<Solicitante> findByNomeContainingIgnoreCase(String nome);
 }

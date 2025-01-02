@@ -3,17 +3,15 @@ package com.teste.pratico.repository;
 import com.teste.pratico.model.Agendamento;
 import com.teste.pratico.model.Solicitante;
 import com.teste.pratico.dto.TotalAgendamentoDTO;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface AgendamentoRepository extends BaseRepository<Agendamento, Long> {
+public interface AgendamentoRepository extends BaseRepository<Agendamento> {
 
     @Query("SELECT a FROM Agendamento a " +
            "WHERE (:dataInicio IS NULL OR a.data >= :dataInicio) " +
@@ -50,7 +48,7 @@ public interface AgendamentoRepository extends BaseRepository<Agendamento, Long>
     Long contarAgendamentosPorPeriodo(@Param("dataInicio") Date dataInicio,
                                       @Param("dataFim") Date dataFim);
 
-    @Query("SELECT COUNT(a) FROM Agendamento a WHERE a.solicitante = :solicitante AND a.tipo = :tipoVeiculo AND a.data >= :dataInicio AND a.data <= :dataFim")
+    @Query("SELECT COUNT(a) FROM Agendamento a WHERE a.solicitante = :solicitante AND LOWER(a.tipo) = LOWER(:tipoVeiculo) AND a.data >= :dataInicio AND a.data <= :dataFim")
     Long contarAgendamentosPorPeriodoESolicitanteETipoVeiculo(@Param("dataInicio") Date dataInicio,
                                                   @Param("dataFim") Date dataFim,
                                                   @Param("solicitante") Solicitante solicitante,
