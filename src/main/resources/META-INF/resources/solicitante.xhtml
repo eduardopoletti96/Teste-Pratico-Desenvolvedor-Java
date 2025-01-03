@@ -23,7 +23,13 @@
             </h:form>
 
             <h:form id="solicitantesForm">
-                <p:dataTable value="#{solicitanteBean.getEntityList()}" var="solicitante" paginator="true" rows="8" border="1">
+                <p:dataTable value="#{solicitanteBean.lazyModel}"
+                             var="solicitante"
+                             paginator="true"
+                             rows="10"
+                             lazy="true"
+                             rowsPerPageTemplate="10,20,50"
+                             border="1">
                     <p:column headerText="ID">
                         <h:outputText value="#{solicitante.id}"/>
                     </p:column>

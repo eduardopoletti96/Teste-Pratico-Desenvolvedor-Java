@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface AgendamentoRepository extends BaseRepository<Agendamento> {
+public interface AgendamentoRepository extends BaseRepository<Agendamento, Long> {
 
     @Query("SELECT a FROM Agendamento a " +
            "WHERE (:dataInicio IS NULL OR a.data >= :dataInicio) " +

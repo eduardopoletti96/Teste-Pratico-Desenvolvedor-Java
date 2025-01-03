@@ -16,31 +16,38 @@
         <p:panel header="Cadastro de Vagas">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel for="inicio" value="Início:"/>
-                <p:datePicker id="inicio" value="#{vagasBean.vagas.inicio}"
+                <p:datePicker id="inicio" value="#{vagasBean.getEntity().inicio}"
                               pattern="dd/MM/yyyy" showIcon="true" required="true"
                               requiredMessage="Informe a data de início para as vagas."/>
 
                 <h:outputLabel for="fim" value="Fim:"/>
-                <p:datePicker id="fim" value="#{vagasBean.vagas.fim}"
+                <p:datePicker id="fim" value="#{vagasBean.getEntity().fim}"
                               pattern="dd/MM/yyyy" showIcon="true" required="true"
                               requiredMessage="Informe a data de fim para as vagas."/>
 
                 <h:outputLabel for="quantidade" value="Quantidade:"/>
-                <p:inputText id="quantidade" filter="numeric" value="#{vagasBean.vagas.quantidade}" required="true" label="Quantidade:"/>
+                <p:inputText id="quantidade" filter="numeric" value="#{vagasBean.getEntity().quantidade}" required="true" label="Quantidade:"/>
 
                 <h:outputLabel for="tipo" value="Tipo:"/>
-                <p:selectOneMenu id="tipo" value="#{vagasBean.tipoSelecionado}" required="true">
+                <p:selectOneMenu id="tipo" value="#{vagasBean.tipoVeiculo}" required="true">
                     <f:selectItem itemLabel="Selecione um tipo" itemValeu=""/>
-                    <f:selectItems value="#{vagasBean.opcoesTipo}"/>
+                    <f:selectItems value="#{enumBean.tipoVeiculos}" var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}"/>
+                    <f:converter converterId="tipoVeiculoConverter"/>
                 </p:selectOneMenu>
 
-                <p:commandButton value="Salvar" action="#{vagasBean.salvarVagas}" update=":vagasForm messages insercaoVagasForm"/>
+                <p:commandButton value="Salvar" action="#{vagasBean.salvar}" update=":vagasForm messages insercaoVagasForm"/>
             </h:panelGrid>
         </p:panel>
     </h:form>
 
     <h:form id="vagasForm">
-        <p:dataTable value="#{vagasBean.vagasList}" var="vagas" paginator="true" rows="8" border="1">
+        <p:dataTable value="#{vagasBean.lazyModel}"
+                     var="vagas"
+                     paginator="true"
+                     rows="10"
+                     lazy="true"
+                     rowsPerPageTemplate="10,20,50"
+                     border="1">
             <p:column headerText="ID">
                 <h:outputText value="#{vagas.id}"/>
             </p:column>
@@ -58,10 +65,10 @@
                 <h:outputText value="#{vagas.quantidade}"/>
             </p:column>
             <p:column headerText="Tipo">
-                <h:outputText value="#{vagas.tipo}"/>
+                <h:outputText value="#{vagas.tipo.descricao}"/>
             </p:column>
             <p:column headerText="Ações">
-                <p:commandButton value="Excluir" action="#{vagasBean.excluirVagas(vagas)}" update="vagasForm messages"/>
+                <p:commandButton value="Excluir" action="#{vagasBean.excluir(vagas)}" update="vagasForm messages"/>
             </p:column>
         </p:dataTable>
     </h:form>

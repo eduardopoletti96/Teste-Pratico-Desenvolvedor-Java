@@ -50,7 +50,13 @@
         </p:panel>
     </h:form>
     <h:form id="agendamentoForm">
-        <p:dataTable value="#{agendamentoBean.getEntityList()}" var="agendamento" paginator="true" rows="10" border="1">
+        <p:dataTable value="#{agendamentoBean.lazyModel}"
+                     var="agendamento"
+                     paginator="true"
+                     rows="10"
+                     lazy="true"
+                     rowsPerPageTemplate="10,20,50"
+                     border="1">
             <p:column headerText="Data">
                 <h:outputText value="#{agendamento.data}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>

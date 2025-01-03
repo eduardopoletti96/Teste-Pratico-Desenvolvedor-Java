@@ -2,6 +2,7 @@ package com.teste.pratico.service;
 
 import com.teste.pratico.exception.ValidacaoVagasException;
 import com.teste.pratico.model.Vagas;
+import com.teste.pratico.repository.BaseRepository;
 import com.teste.pratico.repository.VagasRepository;
 import com.teste.pratico.util.TesteUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,23 +15,24 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class VagasService {
+public class VagasService extends BaseService<Vagas, Long> {
 
     @Autowired
     private VagasRepository vagasRepository;
-
-    public List<Vagas> listarVagas() {
-        return vagasRepository.findAll();
-    }
 
     public List<Vagas> listarVagas(Date inicio, Date fim) {
         return vagasRepository.findAll();
     }
 
-    @Transactional
-    public void salvarVagas(Vagas vagas) {
-        validarInsercaoVagas(vagas);
-        vagasRepository.save(vagas);
+    @Override
+    protected BaseRepository<Vagas, Long> getRepository() {
+        return vagasRepository;
+    }
+
+    @Override
+    public void salvar(Vagas entity) {
+        validarInsercaoVagas(entity);
+        super.salvar(entity);
     }
 
     private void validarInsercaoVagas(Vagas vagas) {
@@ -48,10 +50,5 @@ public class VagasService {
         if (vagas.getInicio().before(TesteUtils.converterLocalDateParaData())){
             throw new ValidacaoVagasException("Não é possível cadastrar vagas com data retroativa!");
         }
-    }
-
-    @Transactional
-    public void excluirVagas(Vagas vagas) {
-        vagasRepository.delete(vagas);
     }
 }

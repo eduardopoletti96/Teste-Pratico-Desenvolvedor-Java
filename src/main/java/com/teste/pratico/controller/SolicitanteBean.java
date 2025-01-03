@@ -18,7 +18,7 @@ import java.util.List;
 @ViewScoped
 @Getter
 @Setter
-public class SolicitanteBean extends BaseController<Solicitante>{
+public class SolicitanteBean extends BaseController<Solicitante, Long>{
 
     @Autowired
     private SolicitanteService solicitanteService;
@@ -29,7 +29,7 @@ public class SolicitanteBean extends BaseController<Solicitante>{
     }
 
     @Override
-    public BaseService<Solicitante> getService() {
+    public BaseService<Solicitante, Long> getService() {
         return solicitanteService;
     }
 

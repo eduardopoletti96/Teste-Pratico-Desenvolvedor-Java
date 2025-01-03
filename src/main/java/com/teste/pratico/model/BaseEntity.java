@@ -2,8 +2,8 @@ package com.teste.pratico.model;
 
 import java.io.Serializable;
 
-public abstract class BaseEntity implements Serializable {
-    public abstract Long getId();
-    public abstract void setId(Long id);
+public abstract class BaseEntity<ID extends Serializable> implements Serializable {
+    public abstract ID getId();
+    public abstract void setId(ID id);
 
 }

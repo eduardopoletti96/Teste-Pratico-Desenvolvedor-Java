@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Date;
 import java.util.List;
 
-public interface VagasRepository extends JpaRepository<Vagas, Long> {
+public interface VagasRepository extends BaseRepository<Vagas, Long> {
 
     @Query("SELECT v FROM Vagas v WHERE v.fim <= :dataAgendamento")
     List<Vagas> buscarVagasPorDataAgendamento(@Param("dataAgendamento") Date dataAgendamento);

@@ -7,44 +7,48 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService<T extends BaseEntity> {
+public abstract class BaseService<T extends BaseEntity<ID>, ID extends Serializable> {
 
-    @Autowired
-    private BaseRepository<T> repository;
+    protected abstract BaseRepository<T, ID> getRepository();
 
-    public Optional<T> findById(Long id) {
-        return repository.findById(id);
+    public Optional<T> findById(ID id) {
+        return getRepository().findById(id);
     }
 
     public List<T> listar() {
-        return repository.findAll();
+        return getRepository().findAll();
     }
 
     public List<T> listarComLimite(int limit) {
         Pageable pageable = PageRequest.of(0, limit);
-        return repository.findAll(pageable).getContent();
+        return getRepository().findAll(pageable).getContent();
     }
 
-    public List<T> listarComLimitePadrao(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
-        return repository.findAll(pageable).getContent();
+    public List<T> listarComLimitePadrao(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return getRepository().findAll(pageable).getContent();
+    }
+
+    public int count() {
+        return (int) getRepository().count();
     }
 
     @Transactional
     public void salvar(T entity) {
-        repository.save(entity);
+        getRepository().save(entity);
     }
 
     @Transactional
     public void excluir(T entity) {
-        repository.delete(entity);
+        getRepository().delete(entity);
     }
 
     @Transactional
-    public void excluirById(Long id) {
-        repository.deleteById(id);
+    public void excluirById(ID id) {
+        getRepository().deleteById(id);
     }
 }

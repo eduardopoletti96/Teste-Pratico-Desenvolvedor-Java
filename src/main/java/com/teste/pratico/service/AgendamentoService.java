@@ -4,6 +4,7 @@ import com.teste.pratico.dto.TotalAgendamentoDTO;
 import com.teste.pratico.exception.AgendamentoException;
 import com.teste.pratico.model.Agendamento;
 import com.teste.pratico.repository.AgendamentoRepository;
+import com.teste.pratico.repository.BaseRepository;
 import com.teste.pratico.repository.VagasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class AgendamentoService extends BaseService<Agendamento>{
+public class AgendamentoService extends BaseService<Agendamento, Long>{
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
     @Autowired
     private VagasRepository vagasRepository;
+
 
     public List<Agendamento> listarAgendamentos(Agendamento agendamento) {
         return agendamentoRepository.buscarAgendamentos(agendamento.getDataInicio(), agendamento.getDataFim(), agendamento.getSolicitante());
@@ -25,6 +27,11 @@ public class AgendamentoService extends BaseService<Agendamento>{
 
     public List<TotalAgendamentoDTO> buscarTotalAgendamentos(Agendamento agendamento) {
         return agendamentoRepository.buscarTotalAgendamentos(agendamento.getDataInicio(), agendamento.getDataFim(), agendamento.getSolicitante());
+    }
+
+    @Override
+    protected BaseRepository<Agendamento, Long> getRepository() {
+        return agendamentoRepository;
     }
 
     @Override

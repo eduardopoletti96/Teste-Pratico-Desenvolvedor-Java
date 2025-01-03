@@ -19,7 +19,7 @@ import java.util.List;
 @ViewScoped
 @Getter
 @Setter
-public class AgendamentoBean extends BaseController<Agendamento> {
+public class AgendamentoBean extends BaseController<Agendamento, Long> {
 
     @Autowired
     private AgendamentoService agendamentoService;
@@ -38,12 +38,7 @@ public class AgendamentoBean extends BaseController<Agendamento> {
     }
 
     @Override
-    public void init() {
-        super.init();
-    }
-
-    @Override
-    public BaseService<Agendamento> getService() {
+    public BaseService<Agendamento, Long> getService() {
         return agendamentoService;
     }
 
